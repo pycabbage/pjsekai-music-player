@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  --bar-bg-color: #3f51b5;
+}
+
+.App {
+  color: white;
+}
+
+.App .header {
+  z-index: 1;
+  top: 0;
+  left: 0;
+  position: fixed;
+  background-color: var(--bar-bg-color);
+  height: 50px;
+  width: 100%;
+}
+
+.App .header input {
+  margin: 0 5% 0 5%;
+  size: 5em;
+  width: 90%;
+  height: 50px;
+  outline: none;
+  background-color: inherit;
+  font-size: 2rem;
+  color: white;
+}
+
+.App .container {
+  margin: 50px 0;
+  padding: 10px 0 11px 0;
+  background-color: #303030;
+  min-height: calc(100vh - 50px);
+  position: static;
+  text-align: center;
+  justify-content: center;
+}
+
+.App .container .musicCard {
+  width: 80%;
+  margin: 10px 10%;
+  height: 80px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  background-color: rgba(255, 255, 255, 0);
+  transition: background-color .3s;
+}
+
+.App .container .musicCard:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: background-color .3s;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.App .container .musicCard * {
+  float: left;
+  /* border: 1px solid red; */
+}
+
+.App .container .musicCard img {
+  height: 80px;
+  width: 80px;
+  margin: 0 10px 0 10px;
+  background-color: gray;
+}
+
+.App .footer {
+  background-color: var(--bar-bg-color);
+  z-index: 1;
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}
