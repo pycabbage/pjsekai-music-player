@@ -134,7 +134,7 @@ export default class App extends Component {
       });
     }
     this.audio.src = `https://assets.pjsek.ai/file/pjsekai-assets/ondemand/music/long/${asid}/${asid}.flac`
-    this.audio.fastSeek(this.audioOffset)
+    this.audio.currentTime = this.audioOffset
     // this.audio.play()
   }
 
@@ -162,7 +162,7 @@ export default class App extends Component {
 
   seek(percent) {
     if (this.state.nowPlayingID) {
-      this.audio.fastSeek(this.audio.duration * percent + this.audioOffset * (1 - percent))
+      this.audio.currentTime = this.audio.duration * percent + this.audioOffset * (1 - percent)
       this.setState({
         progress: percent
       })
@@ -220,7 +220,7 @@ export default class App extends Component {
                 if (el.id == this.state.nowPlayingID) bid = el.assetbundleName
               });
               return `https://assets.pjsek.ai/file/pjsekai-assets/startapp/music/jacket/${bid}/${bid}.png`
-            })():""}
+           })() :"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="}
             alt={this.state.nowPlayingID ? (() => {
               var title = ""
               this.musicData.data.forEach(el => {
