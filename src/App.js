@@ -19,20 +19,36 @@ function MusicCard(props) {
   )
 }
 
+function SongTypeButton(props) {
+  return (
+    <div>
+      <div className={"songTypeButton "+props.type}>
+        {props.type.toUpperCase()}
+      </div>
+      <div>
+        {props.num}
+      </div>
+    </div>
+  )
+}
+
 export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      dragging: false,
       acquired: false,
       searchQuery: "",
       nowPlayingID: 0,
-      loop: false
+      loop: false,
+      progress: 0
     }
     this.dataURL = {
       music: "https://api.pjsek.ai/database/master/musics?$limit=1000&$sort[publishedAt]=-1&$sort[id]=-1&$skip=0",
       bgmAssets: "https://api.pjsek.ai/assets?parent=ondemand/music/long&$limit=1000&$sort[isDir]=-1&$sort[path]=1",
     }
     this.play = this.play.bind(this)
+    this.seek = this.seek.bind(this)
     this.audio = new Audio()
     this.audio.addEventListener("canplay", e => {
       this.audio.play()
@@ -41,6 +57,12 @@ export default class App extends Component {
       if (this.state.loop) this.audio.play()
       else this.setState({ nowPlayingID: 0})
     })
+    this.audio.addEventListener("timeupdate", e=>{
+      this.setState({
+        progress: (this.audio.currentTime - this.audioOffset) / (this.audio.duration - this.audioOffset)
+      })
+    })
+    this.audioOffset = 7
   }
 
   componentDidMount() {
@@ -55,6 +77,11 @@ export default class App extends Component {
             this.setState({acquired: true})
           })
       })
+  }
+
+  toTime(t) {
+    var m = Math.floor(t / 60)
+    return `${m}:${("00" + Math.floor(t) % 60).slice(-2)}`
   }
 
   getAssetidByID(id) {
@@ -89,13 +116,25 @@ export default class App extends Component {
   }
 
   play(id) {
-    var asidarr = this.getAssetidByID(id)
-    var asid = asidarr.se[0] || asidarr.vs[0] || asidarr.an[0]
-    this.setState({
-      nowPlayingID: id,
-    })
+    if (typeof id == "number") {
+      var asidarr = this.getAssetidByID(id)
+      var asid = asidarr.se[0] || asidarr.vs[0] || asidarr.an[0]
+      this.setState({
+        nowPlayingID: id,
+        progress: 0
+      })
+      this.musicData.data.forEach(el => {
+        if (el.id == id) document.title = el.title
+      });
+    } else {
+      var asid = id
+      var nid = this.getIdByAssetId(id)
+      this.musicData.data.forEach(el => {
+        if (el.id == nid) document.title = el.title
+      });
+    }
     this.audio.src = `https://assets.pjsek.ai/file/pjsekai-assets/ondemand/music/long/${asid}/${asid}.flac`
-    this.audio.currentTime = 7
+    this.audio.fastSeek(this.audioOffset)
     // this.audio.play()
   }
 
@@ -117,9 +156,36 @@ export default class App extends Component {
     return id
   }
 
-  render() {
-    return (
-      <div className="App">
+  getIdByAssetId(asid) {
+    return parseInt(asid.match(/((an|vs|se)_)?(\d+)_\d+/)[3])
+  }
+
+  seek(percent) {
+    if (this.state.nowPlayingID) {
+      this.audio.fastSeek(this.audio.duration * percent + this.audioOffset * (1 - percent))
+      this.setState({
+        progress: percent
+      })
+    }
+  }
+ 
+ render() {
+   return (
+      <div className="App"
+        onMouseMove={e => {
+        if (this.state.dragging) {
+          this.seek(e.clientX / window.innerWidth)
+        }
+        }}
+        onMouseUp={e => {
+        if (this.state.dragging) {
+          this.seek(e.clientX / window.innerWidth)
+          this.setState({
+            dragging: false
+          })
+        }
+        }}
+      >
         <div className="header">
           <form
             onSubmit={e=>{
@@ -144,16 +210,30 @@ export default class App extends Component {
                 />)
               }
             }
-            return <div className="container">{res}</div>
+            return <div className="container" onMouseDown={e => e.preventDefault()}>{res}</div>
         })() : (<div className="container">loading</div>)}
         <div className="footer">
-          <img src={this.state.nowPlayingID ? (()=>{
-            var bid = ""
-            this.musicData.data.forEach(el => {
-              if (el.id == this.state.nowPlayingID) bid = el.assetbundleName
-            });
-            return `https://assets.pjsek.ai/file/pjsekai-assets/startapp/music/jacket/${bid}/${bid}.png`
-          })():""}/>
+          <img
+            src={this.state.nowPlayingID ? (()=>{
+              var bid = ""
+              this.musicData.data.forEach(el => {
+                if (el.id == this.state.nowPlayingID) bid = el.assetbundleName
+              });
+              return `https://assets.pjsek.ai/file/pjsekai-assets/startapp/music/jacket/${bid}/${bid}.png`
+            })():""}
+            alt={this.state.nowPlayingID ? (() => {
+              var title = ""
+              this.musicData.data.forEach(el => {
+                if (el.id == this.state.nowPlayingID) title = el.title
+              });
+              return title
+            })() : ""}
+          />
+          <div className="controlButtonContainer" onClick={e=>{
+            this.state.nowPlayingID && (this.audio.paused ? this.audio.play() : this.audio.pause())
+          }}>
+           <span class="material-icons">{this.audio.paused ? "play_arrow" : "pause"}</span>
+          </div>
           <div className="titleText">
             {this.state.nowPlayingID ?(()=>{
               var title = ""
@@ -163,6 +243,37 @@ export default class App extends Component {
               return title
             })():""}
           </div>
+          <div className="durationText">
+            {
+              this.state.nowPlayingID
+                ? this.toTime(this.audio.currentTime - this.audioOffset) + " / " + this.toTime(this.audio.duration - this.audioOffset)
+                : "-:-- / -:--"
+            }
+          </div>
+        </div>
+        <div className="progress"
+          onMouseDown={e => {
+            if (e.target.getAttribute("class")) {
+              if (e.target.getAttribute("class").match(/progressPoint/) || e.target.getAttribute("class").match(/progressBar/)) {
+                this.setState({
+                  dragging: true
+                })
+              }
+            }
+          }}
+        >
+          <div className="progressBar" style={{
+            width: `${this.state.nowPlayingID&&(this.state.progress * 100)}%`,
+
+          }} />
+          <div className="pre_progressBar" style={{
+            width: `${this.state.nowPlayingID && ((1-this.state.progress) * 100)}%`,
+          }} />
+          {this.state.nowPlayingID ?
+          <div className="progressPoint" style={{
+            left: `calc(${this.state.progress * 100}% - calc(var(--progress-point) / 2))`
+          }} />
+          :<div/>}
         </div>
       </div>
     )

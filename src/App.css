@@ -1,8 +1,11 @@
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
 * {
   margin: 0;
   padding: 0;
   border: 0;
   --bar-bg-color: #3f51b5;
+  user-select: none;
 }
 
 .App {
@@ -20,6 +23,7 @@
 }
 
 .App .header input {
+  user-select: text;
   margin: 0 5% 0 5%;
   size: 5em;
   width: 90%;
@@ -89,5 +93,92 @@
   height: 50px;
   width: 50px;
   background-color: gray;
+  /* background-image: url(https://icooon-mono.com/i/icon_11184/icon_111840.svg); */
   margin-right: 10px;
+}
+
+.App .footer .controlButtonContainer {
+  position: fixed;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  bottom: 0;
+  transition: opacity .3s;
+}
+
+.App .footer .controlButtonContainer:hover {
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.App .footer .controlButtonContainer .material-icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  background-color: inherit;
+  font-size: 35px;
+  height: 50px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.App .footer .controlButtonContainer .material-icons:hover {
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.App .footer .durationText {
+  margin: 0 30px 0 auto;
+}
+
+:root {
+  --progress: 30%;
+  --progress-point: 6px;
+}
+
+.App .progressBar {
+  z-index: 1;
+  bottom: 50px;
+  left: 0;
+  background-color: red;
+  position: fixed;
+  width: var(--progress);
+  height: 5px;
+  transition: height .1s;
+  cursor: pointer;
+  cursor: hand;
+}
+
+.App .pre_progressBar {
+  z-index: 1;
+  bottom: 50px;
+  right: 0;
+  position: fixed;
+  height: 5px;
+  cursor: pointer;
+  cursor: hand;
+  background-color:rgba(255, 255, 255, 0.2);
+}
+
+.App .progressPoint {
+  cursor: pointer;
+  cursor: hand;
+  z-index: 1;
+  bottom: calc(50px - var(--progress-point) / 2);
+  left: calc(var(--progress) - calc(var(--progress-point) / 2));
+  background-color: red;
+  position: fixed;
+  width: 0px;
+  height: 0px;
+  border: solid var(--progress-point) red;
+  border-radius: var(--progress-point);
+  transition: border .1s,
+  border-radius .1s,
+  bottom .1s;
 }
