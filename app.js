@@ -21,7 +21,10 @@ app.on('ready', () => {
         maximizable: false,
         show: dev || !autohide,
         webPreferences: {
-            webSecurity: false
+            webSecurity: false,
+            nodeIntegration: false,
+            contextIsolation: true,
+            worldSafeExecuteJavaScript: true
         }
     });
     positioner = new Positioner(mainWindow)

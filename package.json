@@ -8,14 +8,18 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "electron-positioner": "^4.1.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "run-p react:start electron:dev",
+    "react:start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron:dev": "electron . --dev"
   },
   "main": "./app.js",
   "homepage": "./",
@@ -40,7 +44,6 @@
   "devDependencies": {
     "electron": "^13.1.4",
     "electron-builder": "^22.11.7",
-    "electron-positioner": "^4.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },
