@@ -7,10 +7,10 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch via NPM",
+            "name": "Launch via yarn",
             "runtimeExecutable": "yarn",
             "runtimeArgs": [
-                "start"
+                "react:start"
             ],
             "port": 9229,
             // "skipFiles": [

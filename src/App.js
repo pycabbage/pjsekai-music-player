@@ -5,31 +5,46 @@ function MusicCard(props) {
   return (
     <div
       className={"musicCard id" + props.data.id}
-      key={"msuicCard-"+props.data.id.toString()}
-      onClick={e => props.playfunc(props.data.id)}
+      key={"msuicCard-" + props.data.id.toString()}
+      onClick={(e) => props.playfunc(props.data.id)}
     >
       <img
         src={`https://assets.pjsek.ai/file/pjsekai-assets/startapp/music/jacket/${props.data.assetbundleName}/${props.data.assetbundleName}.png`}
         alt={props.data.title}
       />
-      <div className="text">
-        {props.data.title}
+      <div className="right">
+        <div className="text">{props.data.title}</div>
+        <div className="typeSelector">
+          <SongTypeButton
+            type="se" id={props.data.id}
+            onClick={()=>props.playfunc(props.data.id, "se")}
+          />
+          <SongTypeButton 
+            type="vs" id={props.data.id}
+            onClick={()=>props.playfunc(props.data.id, "vs")}
+          />
+          <SongTypeButton 
+            type="an" id={props.data.id}
+            onClick={()=>props.playfunc(props.data.id, "an")}
+          />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 function SongTypeButton(props) {
   return (
-    <div>
-      <div className={"songTypeButton "+props.type}>
-        {props.type.toUpperCase()}
-      </div>
-      <div>
-        {props.num}
-      </div>
+    <div
+      className={"songTypeButton " + props.type}
+      onClick={e=>{
+        e.stopPropagation()
+        props.onClick(props)
+      }}
+    >
+      {props.type.toUpperCase()}
     </div>
-  )
+  );
 }
 
 export default class App extends Component {
@@ -115,10 +130,10 @@ export default class App extends Component {
     return res
   }
 
-  play(id) {
+  play(id, type) {
     if (typeof id == "number") {
       var asidarr = this.getAssetidByID(id)
-      var asid = asidarr.se[0] || asidarr.vs[0] || asidarr.an[0]
+      var asid = asidarr[type][0] || asidarr.se[0] || asidarr.vs[0] || asidarr.an[0];
       this.setState({
         nowPlayingID: id,
         progress: 0
@@ -206,7 +221,7 @@ export default class App extends Component {
               if (this.musicData.data[i].title.match(this.state.searchQuery)) {
                 res.push(<MusicCard
                   data={this.musicData.data[i]}
-                  playfunc={id=>this.play(id)}
+                  playfunc={(id, type="se")=>this.play(id, type)}
                 />)
               }
             }
@@ -232,7 +247,7 @@ export default class App extends Component {
           <div className="controlButtonContainer" onClick={e=>{
             this.state.nowPlayingID && (this.audio.paused ? this.audio.play() : this.audio.pause())
           }}>
-           <span class="material-icons">{this.audio.paused ? "play_arrow" : "pause"}</span>
+           <span className="material-icons">{this.audio.paused ? "play_arrow" : "pause"}</span>
           </div>
           <div className="titleText">
             {this.state.nowPlayingID ?(()=>{
