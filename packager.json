@@ -1,5 +1,26 @@
 {
-    "win" : {
-        "title": "pjsekai-music-player"
+    "appId": "com.pycabbage.pjsekaiplayer",
+    "extraMetadata": {
+        "main": "app.js"
+    },
+    "extends": null,
+    "icon": "miku.jpg",
+    "files": [
+        "build/**/*",
+        "node_modules/**/*",
+        "app.js"
+    ],
+    "directories": {
+        "buildResources": "assets",
+        "output": "dist"
+    },
+    "win": {
+        "title": "pjsekai-music-player",
+        "target": {
+            "target": "portable",
+            "arch": [
+                "x64"
+            ]
+        }
     }
 }

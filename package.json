@@ -21,7 +21,7 @@
     "react:eject": "react-scripts eject",
     "electron:run": "electron .",
     "electron:dev": "electron . --dev",
-    "electron:build": "node build.js"
+    "electron:build": "electron-builder"
   },
   "main": "./app.js",
   "homepage": "./",
@@ -64,10 +64,9 @@
     ],
     "directories": {
       "buildResources": "assets",
-      "output": "release"
+      "output": "dist"
     },
     "win": {
-      "title": "pjsekai-music-player",
       "target": {
         "target": "portable",
         "arch": [
