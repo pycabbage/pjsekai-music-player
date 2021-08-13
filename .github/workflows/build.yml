@@ -32,10 +32,11 @@ jobs:
       - name: Build page
         env:
           CI: false
-        run: yarn react:build
+        run: |
+          yarn react:build
       - name: Build Windows x64 app
         run: yarn electron:build:win
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          path: release/*.exe
+          path: dist/*.exe
