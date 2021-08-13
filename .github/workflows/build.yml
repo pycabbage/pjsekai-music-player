@@ -21,6 +21,8 @@ jobs:
             ${{ runner.os }}-node-
       - run: yarn --frozen-lockfile
       - name: Build page
+        env:
+          CI: false
         run: yarn react:build
       - name: Build app
         run: yarn electron:build

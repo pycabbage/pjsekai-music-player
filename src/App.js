@@ -110,7 +110,7 @@ export default class App extends Component {
       var path = ass.path
       var asid = path.split("/")[path.split("/").length - 1]
       var parse = this.parseID(asid)
-      if (parse.id == id) {
+      if (parse.id === id) {
         asidarr.push(asid)
       }
     })
@@ -139,13 +139,13 @@ export default class App extends Component {
         progress: 0
       })
       this.musicData.data.forEach(el => {
-        if (el.id == id) document.title = el.title
+        if (el.id === id) document.title = el.title
       });
     } else {
       var asid = id
       var nid = this.getIdByAssetId(id)
       this.musicData.data.forEach(el => {
-        if (el.id == nid) document.title = el.title
+        if (el.id === nid) document.title = el.title
       });
     }
     this.audio.src = `https://assets.pjsek.ai/file/pjsekai-assets/ondemand/music/long/${asid}/${asid}.flac`
@@ -232,14 +232,14 @@ export default class App extends Component {
             src={this.state.nowPlayingID ? (()=>{
               var bid = ""
               this.musicData.data.forEach(el => {
-                if (el.id == this.state.nowPlayingID) bid = el.assetbundleName
+                if (el.id === this.state.nowPlayingID) bid = el.assetbundleName
               });
               return `https://assets.pjsek.ai/file/pjsekai-assets/startapp/music/jacket/${bid}/${bid}.png`
            })() :"data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="}
             alt={this.state.nowPlayingID ? (() => {
               var title = ""
               this.musicData.data.forEach(el => {
-                if (el.id == this.state.nowPlayingID) title = el.title
+                if (el.id === this.state.nowPlayingID) title = el.title
               });
               return title
             })() : ""}
@@ -253,7 +253,7 @@ export default class App extends Component {
             {this.state.nowPlayingID ?(()=>{
               var title = ""
               this.musicData.data.forEach(el => {
-                if (el.id == this.state.nowPlayingID) title = el.title
+                if (el.id === this.state.nowPlayingID) title = el.title
               });
               return title
             })():""}
