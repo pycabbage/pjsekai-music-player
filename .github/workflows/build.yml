@@ -24,8 +24,8 @@ jobs:
         env:
           CI: false
         run: yarn react:build
-      - name: Build app
-        run: yarn electron:build
+      - name: Build Windows x64 app
+        run: yarn electron:build:win
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:

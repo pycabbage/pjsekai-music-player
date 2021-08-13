@@ -21,7 +21,7 @@
     "react:eject": "react-scripts eject",
     "electron:run": "electron .",
     "electron:dev": "electron . --dev",
-    "electron:build": "electron-builder"
+    "electron:build:win": "electron-builder -w --x64"
   },
   "main": "./app.js",
   "homepage": "./",
