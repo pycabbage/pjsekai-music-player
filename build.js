@@ -13,6 +13,7 @@ builder.build({
             "./**/*"
         ],
         'win': {
+            "title": "pjsekai-music-player",
             'target': {
                 'target': 'portable',
                 // "icon": "public/favicon.ico",

@@ -65,6 +65,15 @@
     "directories": {
       "buildResources": "assets",
       "output": "release"
+    },
+    "win": {
+      "title": "pjsekai-music-player",
+      "target": {
+        "target": "portable",
+        "arch": [
+          "x64"
+        ]
+      }
     }
   }
 }
