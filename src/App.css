@@ -5,7 +5,12 @@
   padding: 0;
   border: 0;
   --bar-bg-color: #3f51b5;
+  --app-bg-color: #303030;
   user-select: none;
+}
+
+body {
+  background-color: var(--app-bg-color);
 }
 
 .App {
@@ -37,7 +42,7 @@
 .App .container {
   margin: 50px 0;
   padding: 10px 0 11px 0;
-  background-color: #303030;
+  background-color: var(--app-bg-color);
   min-height: calc(100vh - 50px);
   position: static;
   text-align: center;
@@ -73,6 +78,10 @@
   float: none;
   display: flex;
   flex-direction: column;
+}
+
+.App .container .musicCard .right .text {
+  margin-right: auto;
 }
 
 .App .container .musicCard .right .typeSelector .songTypeButton {

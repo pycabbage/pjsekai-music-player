@@ -13,9 +13,9 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "run-p react:start electron:dev",
+    "dev": "run-p react electron:dev",
     "build": "run-s react:build electron:build",
-    "react:start": "react-scripts start",
+    "react": "react-scripts start",
     "react:build": "react-scripts build",
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
